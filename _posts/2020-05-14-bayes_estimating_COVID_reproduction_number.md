@@ -76,7 +76,10 @@ $$
 
 Substituting for previously defined variables and distributions estimated in the literature.
 
-First,  by definition of our random vector, $$(P_d)_{d=1}^{d_m}$$,
+First,  by definition of our random vector, 
+$$
+(P_d)_{d=1}^{d_m}
+$$ 
 
 $$
 \mathbb{P}(I=t) \equiv P_t
