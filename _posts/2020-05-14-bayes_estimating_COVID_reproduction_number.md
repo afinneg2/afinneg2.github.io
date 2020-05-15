@@ -2,7 +2,7 @@
 
 **THIS POST IS A WORK IN PROGRESS**
 
-<img src="../assets/images/R_e_cartoon.png" onerror="this.onerror=null;this.src='{{ site.baseurl }}/assets/images/R_e_cartoon.png';" >
+
 
 ## Disclaimer 
 
