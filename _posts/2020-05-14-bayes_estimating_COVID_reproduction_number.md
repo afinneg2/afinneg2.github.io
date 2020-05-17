@@ -12,9 +12,9 @@ This is a naive model I put together. I am not an epidemiologist and have made s
 
 ## Links
 
-Github repo
+Github repo <a href="url">link text</a>
 
-Kaggle
+Kaggle <a href="url">link text</a>
 
 
 
@@ -79,7 +79,7 @@ Substituting for previously defined variables and distributions estimated in the
 First,  by definition of our random vector, 
 $$
 (P_d)_{d=1}^{d_m}
-$$ 
+$$
 
 $$
 \mathbb{P}(I=t) \equiv P_t
@@ -219,8 +219,8 @@ The first collection of box and whiskers plots are organized by state. The x-axi
 
 What conclusions can be drawn from these results? 
 
-- For the 10 states cosidered $$R_e$$ has been at near 1 since the beginning of April 2020.  The value $$R_e=1$$ is important because effective reprocution numbers above this number imply exponential growth in the number of cases with doubling time:  ; while reproduction number below this value imply exponential decay in the number of cases with half-life :  . 
-- The most dramatic and. (ususally latest adoped) policies: stay at home (aka shelter in place), non-essential business closures and bans on even small gatherings  are in almost evey case most effecitive in reducing $$R_e$$ . This is supported by the shift towards more negative percent change from left to right for box plots organized by state.   Overall this is not too surprising but it is important to be able to demonstrate quantitatively that  the personal and economic costs of these policies pay quick dividends in controling COVID spread.
+- For the 10 states cosidered $$R_e$$ has been at near 1 since the beginning of April 2020.  The value $$R_e=1$$ is important because effective reprocution numbers above this number imply exponential growth in the number of cases with doubling time proportional to $$1/\log R_e $$  ; while reproduction number below this value imply exponential decay in the number of cases with half-life proportional to  $$-1/\log R_e $$
+- The most dramatic and (ususally latest adoped) policies: stay at home (aka shelter in place), non-essential business closures and bans on even small gatherings  are in almost evey case most effecitive in reducing $$R_e$$ . This is supported by the shift towards more negative percent change from left to right for box plots organized by state.   Overall this is not too surprising but it is important to be able to demonstrate quantitatively that  the personal and economic costs of these policies pay quick dividends in controling COVID spread.
 - Less dramatic policies including school closures and bar/restaurant limits have mixed effectiveness. For example, bar and restaurant limits appear to have substantially reduced $$R_e$$ (along with other policies implemted concurrently) in Louisiana, California, Michigan and New York. This policy appears less effective in the other states cosidered.  Importantly, conclusions about the effectiveness of a policy acorss different states could be confounded by  the level of societal awarness of the COVID threat at the time of policy implementation. 
 
 
