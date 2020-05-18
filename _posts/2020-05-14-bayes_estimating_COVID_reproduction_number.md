@@ -256,3 +256,5 @@ Verity et al. 2020. "Estimates of the severity of coronavirus disease 2019:a mod
 ## Acknowledgments
 
 I would like to thank my two brothers who helped with data curation and writing code.
+
+
