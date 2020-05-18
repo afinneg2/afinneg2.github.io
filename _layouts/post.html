@@ -2,8 +2,8 @@
 layout: default
 comments: true
 ---
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> <!--This allows display of latex. Based on http://www.iangoodfellow.com/blog/jekyll/markdown/tex/2016/11/07/latex-in-markdown.html-->>
-<h1>{{ page.title | replace '_', ' '  }}</h1>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> <!--This allows display of latex. Based on http://www.iangoodfellow.com/blog/jekyll/markdown/tex/2016/11/07/latex-in-markdown.html-->
+<h1>{{ page.title }}</h1>
 <p class="meta">{{ page.date | date_to_string }}</p>
 
 <div class="notes">
@@ -14,13 +14,10 @@ comments: true
 
     <hr>
     
-    <!-- Post comments -->
-{% if page.comments %} 
-	 {% include disqus.html %}
-{% endif %}
   </div>
 </div>
-
+<!-- Post comments -->
+{% include disqus.html %}
 <!--<div class="post">
   {{ content }}
 </div> -->
