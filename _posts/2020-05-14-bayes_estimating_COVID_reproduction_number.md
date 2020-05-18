@@ -1,6 +1,6 @@
-# Bayesian estimation of COVD-19 Infection time series and reproduction number
 
-**THIS POST IS A WORK IN PROGRESS**
+
+# Bayesian estimation of COVD-19 Infection time series and reproduction number
 
 
 
@@ -12,15 +12,13 @@ This is a naive model I put together. I am not an epidemiologist and have made s
 
 ## Links
 
-Github repo <a href="url">link text</a>
+<a href="https://github.com/afinneg2/RZeroTools">RZeroTools  repository</a>
 
-Kaggle <a href="url">link text</a>
-
-
+<a href="https://www.kaggle.com/alexfinnegan/bayesian-estimation-of-infection-time-series">Kaggle Notebook</a>
 
 ## Motivation
 
-Good estimates of the rate of transmission of COVID-19 (COVID) as a function of time are necessary to measure effecitveness of policies to reduce the spread this disease. One measure of transmission is  the effective reproduction number,$$R_e$$ , which is defined as  "[the expected] number of cases generated [by one case] in the current state of a population" (https://en.wikipedia.org/wiki/Basic_reproduction_number).  One way to estimate $$R_e$$ on a day $$t$$ is to divide the cases for which infection occurs on day $$t$$ by the sum of cases capable of transmission on day $$t$$. This gives mean number of new cases generated per day by a single case. Multiplying by the time interval over which a case is capable of trasmission gives $$R_e$$.
+Good estimates of the rate of transmission of COVID-19 (COVID) as a function of time are necessary to measure effectiveness of policies to reduce the spread this disease. One measure of transmission is  the effective reproduction number,$$R_e$$ , which is defined as  "[the expected] number of cases generated [by one case] in the current state of a population" (https://en.wikipedia.org/wiki/Basic_reproduction_number).  One way to estimate $$R_e$$ on a day $$t$$ is to divide the cases for which infection occurs on day $$t$$ by the sum of cases capable of transmission on day $$t$$. This gives mean number of new cases generated per day by a single case. Multiplying by the time interval over which a case is capable of transmission gives $$R_e$$.
 
 Although it is tempting to use the number of cases confirmed by testing as a proxy to the number of infections on each day this approach presents at least two difficulties:
 
@@ -33,7 +31,7 @@ Here, we use reports of death due to COVID on each day to estimate the proportio
 
 ## Objectives
 
-The model and code below aim to estimate $$P_t$$, the probabilty that infection for a fatal case occurs on day $$t$$. This estimate and the assumption of statistical indepence between survival and the date of infection are used to calculate the $$R_e(t)$$ the effective reproduction number as a function of time.  We compare values of $$R_e(t)$$ before and after policy implementation in some of the US states hardest hit by COVID and try to draw conclusions about policy effectiveness.
+The model described below and at <a href="https://github.com/afinneg2/RZeroTools"> this linked code</a>  aim to estimate $$P_t$$, the probability that infection for a fatal case occurs on day $$t$$. This estimate and the assumption of statistical independence between survival and the date of infection are used to calculate the $$R_e(t)$$ the effective reproduction number as a function of time.  We compare values of $$R_e(t)$$ before and after policy implementation in some of the US states hardest hit by COVID and try to draw conclusions about policy effectiveness.
 
 
 
@@ -44,7 +42,7 @@ Description of symbols:
 - $$(d)_{d=1}^{d_m}$$ — the sequence of days for which we have casualty data for a population
 - $$I$$ - day of infection of a single fatal case (a random variable)
 - $$E$$ - day of observed event (in this case death but could also be hospitalization) for a single case (a random variable)
-- $$\mathbb{I}(\cdot)$$ — indicator function (1 if true , 0 if false)
+- $$\mathbb{1}(\cdot)$$ — indicator function (1 if true , 0 if false)
  - $$(P_t)_{t=1}^{d_m}$$  — A vector whose elements are probabilites that a casualty is infected on the corresponding day (A random vector in our Bayesian approach)
  - $$(N_d)_{d=1}^{d_m}$$ — A random vector represting the number of fatalities on day $d \in \{1,....d_m\}$
  - $$(n_d)_{d=1}^{d_m}$$ — the observed number of fatalities on day $d \in \{1,....d_m\}$
@@ -60,7 +58,7 @@ $$
 
 To derive this distribution we calculate the likelihood function for observed death dates and explain our choice of prior.
 
-### Likelihood for a single observation observation
+### Likelihood for a single observation
 
 The probabilty of death on day $$s$$ for a fatal infection condition that death occurs before the last date at which data is available is:
 
@@ -131,7 +129,7 @@ where $$f$$ is the multinomial distribution.
 We could try to find $$(P_t)_{1}^{d_m}$$ that maximizes the likelihood of $$(n_s)_{s=1}^{d_m}$$. However, I observed that this tends to give a few spikes in $$P_t$$ separated by days with $$P_t$$ near 0. This is unreasonable since we expect individuals infected on a day where $$P_t$$ is at a local maxium to acquire their infection from individuals infected on previous days. To address this I changed to a Bayesian approach to estimating $$P_t$$.  I used a  prior $$\mathbb{P}(P_t = p_t) \equiv h(p_t)$$ of the from
 
 $$
-h\left( (p_t)_{t=1}^{d_m}\right) \propto \exp\left\{-\sum_{t=T+2}^{d_m} \mu(t, (p_{t'})_{t'=1}^{d_m})\left[  \left(\log(p_t) - \log\sum_{i=1}^{T} p_{t-i}\right) -  \left(\log(p_{t-1}) - \log\sum_{i=1}^{T} p_{t-1-i}\right)  \right]^2 \right\}
+h\left( (p_t)_{t=1}^{d_m}\right) \propto \exp\left\{-\sum_{t=T+2}^{d_m} \mu(t, (p_{t'})_{t'=1}^{d_m})\left[  \left(\log(p_t) - \log\sum_{i=1}^{T} p_{t-i}\right) -  \left(\log(p_{t-1}) - \log\sum_{i=1}^{T} p_{t-1-i}\right)  \right]^2 \right\} \quad \textbf{[Prior]}
 $$
 
 To understand this choice of prior recall that $$T>1$$ is the number of days for which an infected individual can transmit the disease. Note:
@@ -159,7 +157,7 @@ $$
 Combining the likelihood and the prior, the posterior distribution for  $$P_t$$ is 
 
 $$
-\mathbb{P}\left( (P_t)_{t=1}^{d_m} = (p_t)_{t=1}^{d_m}| (N_s)_{s=1}^{d_m} = (n_s)_{s=1}^{d_m} \right) \propto  f\left( (n_s)_{s=1}^{d_m}, \left( \frac{\sum_{t=1}^{d_m} G_{s,t}P_t}{\sum_{s'=1}^{d_m}\sum_{t'=1}^{d_m}  G_{s',t'}P_{t'}} \right)_{s=1}^{d_m} \right)  h\left( (p_t)_{t=1}^{d_m}\right)
+\mathbb{P}\left( (P_t)_{t=1}^{d_m} = (p_t)_{t=1}^{d_m}| (N_s)_{s=1}^{d_m} = (n_s)_{s=1}^{d_m} \right) \propto  f\left( (n_s)_{s=1}^{d_m}, \left( \frac{\sum_{t=1}^{d_m} G_{s,t}P_t}{\sum_{s'=1}^{d_m}\sum_{t'=1}^{d_m}  G_{s',t'}P_{t'}} \right)_{s=1}^{d_m} \right)  h\left( (p_t)_{t=1}^{d_m}\right) \quad \textbf{[Posterior]}
 $$
 
 We sample from this posterior distribution using Markov Chain Monte Carlo (MCMC). Plots of $$P_t$$ illustrate the posterior mean with shading of a 95% credible interval.
@@ -176,25 +174,36 @@ Plots of $$R_e(t)$$ illustrate the posterior mean with shading of a 95% credible
 
 ### Change in $$R_e(t)$$  following policy implementation 
 
-We measure the change in $$R_e(t)$$ before and after policy implementation by comparing the mean value of $$R_e(t)$$ over the 7 days before implementation of the new policy with the mean of $$R_e(t)$$ calcuated on the day of implementation and the following 6 days. The violin plots in **Results and Discussion** show the posterior distribtution of the percent change in these means.   
+We measure the change in $$R_e(t)$$ before and after policy implementation by comparing the mean value of $$R_e(t)$$ over the 7 days before implementation of the new policy with the mean of $$R_e(t)$$ calcuated on the day of implementation and the following 6 days. The box and whisker plots in **Results and Discussion** show the posterior distribtution of the percent change in these means.   
 
-One issue with this "before vs after" approach is that several policies are frequenctly implemented in just a few days.  To address this, when policies are implemented on the same day they are treated as a single policy and given time same distribution of $$R_e(t)$$; when a second policy is implemented during the 6 day window following a first policy the 6 day window following the first policy is right truncated to prevent including in the mean values of $$R_e(t)$$  from days affected by the second policy. I feel this appoch is too adhoc. An improved approach might start with a model where R_e(t)  is a function of policies in place (see **Weakness and Future Work**).
+One issue with this "before vs after" approach is that several policies are frequenctly implemented in just a few days.  To address this, when policies are implemented on the same day they are treated as a single policy and given time same distribution of $$R_e(t)$$; when a second policy is implemented during the 6 day window following a first policy the 6 day window following the first policy is right truncated to prevent including in the mean values of $$R_e(t)$$  from days affected by the second policy. I feel this appoch is too adhoc. An improved approach might start with a model where $$R_e(t)$$  is a function of policies in place (see **Weakness and Future Work**).
 
 ### Policy enactment dates
 
-Dates of policy enactment were curanted manually from a web search and then
+Dates of policy enactment were curanted manually from a web search and then assigned to the following categories:
+
+- Emergency Declairation
+- Bar/Restaurant Limits
+- School Closures
+- Gathering bans for between 500 and 50 people
+- Gathering bans for between 50 and 10 people
+- Gathering bans for 10 or fewer people.
+- Non-essential buisness closures
+- Stay at home order
 
 ## Results and Discussion
 
-Results shown are for data fit on 5/14/2020. We consider the states with 10 most COVID casualties as of this date. Hyperparameter choices where
+Results shown are for data fit on 5/17/2020. We consider the states with 10 most COVID casualties as of this date. Hyperparameter choices where
 
 $$
-\mu_0= 13. \\
-\text{policy_factor} = 0.01 \\
-T=7
+\begin{align}
+&\mu_0= 13. \\
+&\text{policy_factor} = 0.01 \\
+&T=7
+\end{align}
 $$
 
-First let's demonstrate that the model can produce a good fit to oserved data. Note the y axis (not labeled : -( ) is the number of deaths per day. Red is the data an is obtained from (JHU). Lines show the posterior mean for the expected number of casualties on each day along with 95% credible intervals. These plots can be used to make pedictions about the average number of deaths occuring in the following days. Importantly these forecasts do not include any future infections and thus will underestimate mean numbers of deaths on future days with increasing underestimation on later dates.
+First let's demonstrate that the model can produce a good fit to oserved data.  Red is the data an is obtained from (JHU). Lines show the posterior mean for the expected number of casualties on each day along with 95% credible intervals. These plots can be used to make pedictions about the average number of deaths occuring in the following days. Importantly these forecasts do not include any future infections and thus will underestimate mean numbers of deaths on future days with increasing underestimation on later dates.
 
 <img src="../assets/images/bayes_estimating_COVID_predicted_mean_deaths_by_day.png" onerror="this.onerror=null;this.src='{{ site.baseurl }}/assets/images//bayes_estimating_COVID_predicted_mean_deaths_by_day.png';"  width='800'>
 
@@ -204,7 +213,7 @@ Next, we'll plot estimated time-series for infections and effective reproduction
 
 <img src="../assets/images/bayes_estimating_COVID_Re_predicted.png" onerror="this.onerror=null;this.src='{{ site.baseurl }}/assets/images/bayes_estimating_COVID_Re_predicted.png';" width='800'>
 
-Points of sharp decrease in $$R_e$$ are associated with some of the dates of policy change.  Although our piecewise definition of $$\mu(t,(p_{t'})_{t'1}^{d_m})$$ favors sharp change on these dates. We observe qualitatively similar results when $$\mu(t,(p_{t'})_{t'1}^{d_m}) = \mu_0$$  for all days.
+Points of sharp decrease in $$R_e$$ are associated with some of the dates of policy change.  Although our piecewise definition of $$\mu(t,(p_{t'})_{t'1}^{d_m})$$ favors sharp change on these dates. We observe qualitatively similar results when $$\mu(t,(p_{t'})_{t'1}^{d_m}) = \mu_0$$  for all days (data not shown).
 
 Next, we make box and whiskers plots showing the posterior distribution of percent change in the mean of $$R_e(t)$$ on 7 days before and up to 7 days after implemention of new policies. As mentioned in **Model: Change in $$R_e(t)$$  following policy implementation**  the post-implementation interval is right truncated if it overlaps implementation of subsequent policy. *Note the plots are only available for the states and policies for which dates have been manually curated. They may be incomplete.*
 
@@ -244,6 +253,6 @@ Verity et al. 2020. "Estimates of the severity of coronavirus disease 2019:a mod
 
 
 
-### Acknowledgments
+## Acknowledgments
 
 I would like to thank my two brothers who helped with data curation and writing code.
