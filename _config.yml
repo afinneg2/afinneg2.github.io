@@ -1,3 +1,8 @@
-name: Alex Finneganp
+name: Alex Finnegan's Blog
+author: Alex Finnegan
+url: https://afinneg2.github.io
+description: Articles about computing, the internet and statistics
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
+plugins:
+  - jekyll-feed
