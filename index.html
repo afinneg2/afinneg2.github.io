@@ -7,4 +7,12 @@ title: Alex Finnegan
 <div class="blurb">
 	<h1>Welcome to Alex Finnegan's Webpage</h1>
 
+
+	<h3>Most recent posts: </h3>
+	<ul class="posts">
+		{% for post in site.posts limit:3 %}
+		  <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title | replace: "_", " " }}</a></li>
+		{% endfor %}
+	  </ul>
+
 </div><!-- /.blurb -->
