@@ -252,6 +252,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (>= 2.1.4)
   github-pages
   jekyll-feed
   kramdown (>= 2.3.0)
